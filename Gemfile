@@ -1,4 +1,4 @@
 source "http://rubygems.org"
 
-gem "haml"
+gem "sass", "3.1.0.alpha"
 gem "rspec"
