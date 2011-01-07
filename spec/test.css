@@ -1,0 +1,11 @@
+.style_one,
+.style_three {
+  /* this is a comment */
+  background-color: green;
+  font-style: italic;
+}
+
+.style_two {
+  background-color: green;
+  color: blue;
+}
