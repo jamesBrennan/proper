@@ -5,6 +5,7 @@ module Proper
     attr_reader :prop_hash
 
     def initialize
+      puts "initialized"
       @prop_hash = Hash.new
     end
 
@@ -31,7 +32,24 @@ module Proper
       end
     end
 
+    def write_to_file(path)
+      File.open(path, "w") do |f|
+        sorted_props = @prop_hash.keys.sort
+        sorted_props.each do |prop|
+          f.puts "/* #{prop.split(":").join(": ")} */"
+          f.puts @prop_hash[prop].join(",") + "{#{prop};}"
+          f.puts " "
+
+          puts "/* #{prop.split(":").join(": ")} */"
+          puts @prop_hash[prop].join(",") + "{#{prop};}"
+          puts " "
+
+        end
+      end
+    end
+
     private
+
 
     def get_file_as_string(file_name)
       out = ""
@@ -48,7 +66,7 @@ module Proper
     end
 
     def rule_names(rule_node)
-      rule_node.rule.map{|r| r.gsub("\n","").split(",")}.flatten
+      rule_node.rule.map { |r| r.gsub("\n", "").split(",") }.flatten
     end
 
   end
