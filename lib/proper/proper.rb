@@ -20,13 +20,15 @@ module Proper
     end
 
     def load_prop_hash(rules)
-      rules.each do |rule_node|
-        props_for_node(rule_node).each do |prop|
-          key = prop_key(prop)
-          if @prop_hash[key]
-            @prop_hash[key] = @prop_hash[key] + rule_names(rule_node)
-          else
-            @prop_hash[key] = rule_names(rule_node)
+      if rules
+        rules.each do |rule_node|
+          props_for_node(rule_node).each do |prop|
+            key = prop_key(prop)
+            if @prop_hash[key]
+              @prop_hash[key] = @prop_hash[key] + rule_names(rule_node)
+            else
+              @prop_hash[key] = rule_names(rule_node)
+            end
           end
         end
       end
@@ -39,17 +41,11 @@ module Proper
           f.puts "/* #{prop.split(":").join(": ")} */"
           f.puts @prop_hash[prop].join(",") + "{#{prop};}"
           f.puts " "
-
-          puts "/* #{prop.split(":").join(": ")} */"
-          puts @prop_hash[prop].join(",") + "{#{prop};}"
-          puts " "
-
         end
       end
     end
 
     private
-
 
     def get_file_as_string(file_name)
       out = ""
@@ -62,7 +58,9 @@ module Proper
     end
 
     def prop_key(prop_node)
-      prop_node.name.to_s << ":" << prop_node.value.to_s
+      puts prop_node.inspect
+      #prop_node.name.to_s << ":" << prop_node.value.to_s
+      "foo"
     end
 
     def rule_names(rule_node)

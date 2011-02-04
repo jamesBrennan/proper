@@ -7,6 +7,7 @@ describe Proper::Proper do
     @test_path = 'test.css'
   end
 
+=begin
   it "has a prop_hash" do
     @proper.prop_hash.should be_kind_of Hash
   end
@@ -18,12 +19,14 @@ describe Proper::Proper do
       it "loads the prop_hash with props as keys" do
         rules = @proper.extract_rules(@test_path)
         @proper.load_prop_hash(rules)
+        puts @proper.inspect
         @proper.prop_hash["background-color:green"].should == [".style_one", ".style_three", ".style_two"]
       end
 
     end
 
   end
+=end
 
   describe "write_to_file" do
 
@@ -41,7 +44,6 @@ describe Proper::Proper do
       end
 
     end
-
   end
 
   describe "extract_rules" do
