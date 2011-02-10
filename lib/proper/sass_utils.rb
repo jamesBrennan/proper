@@ -2,7 +2,12 @@ module Proper
   class SassUtils
 
     def self.prop_as_string(prop_node)
-      prop_node.name[0] << ":" << "#{prop_node.value}"
+      begin
+        prop_node.name[0] << ":" << "#{prop_node.value}"
+      rescue ArgumentError => e
+        puts "argument error #{prop_node.value.inspect}"
+        "error"
+      end
     end
 
     def self.rule_names(rule_node)

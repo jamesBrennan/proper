@@ -4,12 +4,13 @@ module Proper
 
   class Proper
 
-    attr_accessor :stylesheets, :output, :log_file
+    attr_accessor :stylesheets, :output, :log_file, :compact
     attr_reader :prop_hash
 
     def initialize
       @prop_hash = Hash.new
       @stylesheets = []
+      @compact = true
       @output = ""
     end
 
@@ -49,9 +50,9 @@ module Proper
       File.open(path, "w") do |f|
         sorted_props = @prop_hash.keys.sort
         sorted_props.each do |prop|
-          f.puts "/* #{prop.split(":").join(": ")} */"
+          f.puts "/* #{prop.split(":").join(": ")} */" unless @compact
           f.puts @prop_hash[prop].join(",") + "{#{prop};}"
-          f.puts " "
+          f.puts " " unless @compact
         end
       end
     end
