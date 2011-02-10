@@ -1,12 +1,23 @@
+require 'sass'
+
 module Proper
 
   class Proper
 
+    attr_accessor :stylesheets, :output, :log_file
     attr_reader :prop_hash
 
     def initialize
-      puts "initialized"
       @prop_hash = Hash.new
+      @stylesheets = []
+      @output = ""
+    end
+
+    def run
+      @stylesheets.each do |stylesheet|
+        load_prop_hash(extract_rules(stylesheet))
+      end
+      write_to_file(@output)
     end
 
     def extract_rules(path)
@@ -23,11 +34,11 @@ module Proper
       if rules
         rules.each do |rule_node|
           props_for_node(rule_node).each do |prop|
-            key = prop_key(prop)
+            key = SassUtils.prop_as_string(prop)
             if @prop_hash[key]
-              @prop_hash[key] = @prop_hash[key] + rule_names(rule_node)
+              @prop_hash[key] = @prop_hash[key] + SassUtils.rule_names(rule_node)
             else
-              @prop_hash[key] = rule_names(rule_node)
+              @prop_hash[key] = SassUtils.rule_names(rule_node)
             end
           end
         end
@@ -51,20 +62,10 @@ module Proper
       out = ""
       File.open(file_name, "r") do |infile|
         while (line = infile.gets)
-          out << line
+          out << line.force_encoding("UTF-8")
         end
       end
       out
-    end
-
-    def prop_key(prop_node)
-      puts prop_node.inspect
-      #prop_node.name.to_s << ":" << prop_node.value.to_s
-      "foo"
-    end
-
-    def rule_names(rule_node)
-      rule_node.rule.map { |r| r.gsub("\n", "").split(",") }.flatten
     end
 
   end

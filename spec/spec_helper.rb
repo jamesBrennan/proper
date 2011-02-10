@@ -3,4 +3,7 @@ require 'bundler'
 require 'sass'
 Bundler.setup
 
-require File.expand_path(File.join(File.dirname(__FILE__), '../lib/proper'))
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
+$LOAD_PATH.unshift(File.dirname(__FILE__))
+
+require 'proper'
